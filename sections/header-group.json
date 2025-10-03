@@ -13,10 +13,13 @@
   "sections": {
     "header": {
       "type": "header",
-      "settings": {}
+      "settings": {
+        "menu": "navbar",
+        "section_spacing_bottom": 36
+      }
     }
   },
   "order": [
     "header"
-  ],
+  ]
 }
