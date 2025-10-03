@@ -19,7 +19,7 @@
         "id": "type_primary_font",
         "default": "work_sans_n4",
         "label": "t:general.primary"
-      },
+      }
     ]
   },
   {
@@ -49,7 +49,7 @@
         "step": 1,
         "unit": "px",
         "label": "t:labels.page_margin",
-        "default": 20
+        "default": 16
       }
     ]
   },
@@ -67,6 +67,12 @@
         "id": "foreground_color",
         "default": "#333333",
         "label": "t:labels.foreground"
+      },
+      {
+        "type": "color",
+        "id": "secondary_color",
+        "default": "#6B7580",
+        "label": "Secondary Color"
       },
       {
         "type": "range",

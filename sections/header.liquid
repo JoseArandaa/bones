@@ -1,26 +1,45 @@
-<header>
-  <h2 class="header__title">
-    {{ shop.name | link_to: routes.root_url }}
-  </h2>
+<header class="full-width" style="margin-bottom: {{ section.settings.section_spacing_bottom }}px;">
+  <div class="header__container">
 
-  <div class="header__menu">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
+    <h2 class="header__title">
+      SnowboardCo
+    </h2>
+    <div class="header__menu">
+      {% for link in section.settings.menu.links %}
+        {{ link.title | link_to: link.url }}
+      {% endfor %}
+    </div>
   </div>
 
-  <div class="header__icons">
-    {% if shop.customer_accounts_enabled %}
-      {{ 'icon-account.svg' | inline_asset_content | link_to: routes.account_url }}
-    {% endif %}
+  <button class="header__hamburger" id="hamburger-menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 
-    <a href="{{ routes.cart_url }}">
-      {% if cart.item_count > 0 %}
-        <sup>{{ cart.item_count }}</sup>
+  <div class="header__search__container__wrapper" id="mobile-menu">
+    <div class="header__mobile__menu">
+      {% for link in section.settings.menu.links %}
+        <a href="{{ link.url }}" class="header__mobile__link">{{ link.title }}</a>
+      {% endfor %}
+    </div>
+        <div class="header__search__container">
+      <input class="header__search" type="text" placeholder="{{ 'sections.header.search' | t }}">
+      <a href="{{ routes.search_url }}" class="header__search-icon">
+        {{ 'icon-search.svg' | inline_asset_content }}
+      </a>
+    </div>
+        <div class="header__icons">
+      <a href="{{ routes.cart_url }}">
+        {% if cart.item_count > 0 %}
+          <sup>{{ cart.item_count }}</sup>
+        {% endif %}
+        {{ 'icon-cart.svg' | inline_asset_content }}
+      </a>
+      {% if shop.customer_accounts_enabled %}
+        {{ 'icon-account.svg' | inline_asset_content | link_to: routes.account_url }}
       {% endif %}
-
-      {{ 'icon-cart.svg' | inline_asset_content }}
-    </a>
+    </div>
   </div>
 </header>
 
@@ -30,11 +49,27 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-bottom: 1px solid #E5E8EB;
+    padding: 0 72px;
+    margin-bottom: 100px;
+  }
+  .header__container {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    width: 100%;
+  }
+  .header__title {
+    font-size: 1.5rem;
+    font-family: var(--font-primary--family);
+    font-weight: 600;
+    color: var(--color-foreground);
   }
   header a {
     position: relative;
     text-decoration: none;
     color: var(--color-foreground);
+    font-family: var(--font-primary--family);
   }
   header a sup {
     position: absolute;
@@ -43,14 +78,291 @@
     max-width: var(--page-margin);
   }
   header svg {
-    width: 2rem;
+    width: 1.5rem;
   }
   header .header__menu,
   header .header__icons {
     display: flex;
     gap: 1rem;
   }
+  .header__search__container__wrapper {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .header__icons {
+    flex-shrink: 0;
+  }
+  header .header__icons a {
+  background-color: #F2F2F2;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  }
+  .header__search__container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .header__search {
+    border: 1px solid #F2F2F2;
+    background-color: #F2F2F2;
+    border-radius: 0.5rem;
+    padding: 0.6rem 0.5rem 0.6rem 2rem;
+    width: 200px;
+  }
+  
+  .header__search-icon {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px !important;
+    height: 20px !important;
+    display: inline-block;
+    color: #666;
+  }
+
+  /* Hamburger menu styles */
+  .header__hamburger {
+    display: none;
+    flex-direction: column;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 1001;
+    position: relative;
+    outline: none;
+  }
+
+  .header__hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: var(--color-foreground);
+    margin: 3px 0;
+    transition: 0.3s;
+    display: block;
+  }
+
+  /* Debug temporal - remover después */
+  .header__hamburger:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  /* Mobile menu links styles */
+  .header__mobile__menu {
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+
+  .header__mobile__link {
+    text-decoration: none;
+    color: var(--color-foreground);
+    font-family: var(--font-primary--family);
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 0.5rem 0;
+    text-align: center;
+    transition: color 0.3s ease;
+  }
+
+  .header__mobile__link:hover {
+    color: var(--color-secondary);
+  }
+
+  .header__hamburger.active span:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+  }
+
+  .header__hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .header__hamburger.active span:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+  }
+
+  /* Asegurar que el menú se vea en móviles */
+  @media screen and (max-width: 768px) {
+    .header__hamburger {
+      display: flex !important;
+      pointer-events: auto !important;
+      touch-action: manipulation !important;
+    }
+    
+    .header__search__container__wrapper {
+      display: flex !important;
+    }
+
+    /* Ocultar completamente el menú original en móviles */
+    .header__container .header__menu {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
+  }
+
+  /* Responsive styles - solo para móviles */
+  @media screen and (max-width: 768px) {
+    header {
+      padding: 0 24px;
+      height: 5rem;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1001;
+      overflow: visible;
+    }
+    
+    .header__container {
+      flex-direction: row;
+      gap: 1rem;
+      width: auto;
+    }
+    
+    /* El menú original ya está oculto por el CSS anterior */
+    
+    .header__hamburger {
+      display: flex;
+    }
+    
+    .header__search__container{
+      width: 100%;
+    }
+    .header__search__container__wrapper {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: white;
+      border-top: 1px solid #E5E8EB;
+      padding: 1rem 24px;
+      flex-direction: column;
+      gap: 1rem;
+      transform: translateY(-100%);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      visibility: hidden;
+      max-height: 0;
+      overflow: hidden;
+    }
+
+    .header__mobile__menu {
+      display: flex;
+      width: 100%;
+    }
+
+    /* Asegurar que solo se vean los links dentro del menú hamburguesa */
+    .header__container .header__menu a {
+      display: none !important;
+    }
+    
+    .header__search__container__wrapper.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+      max-height: 400px;
+    }
+    
+    .header__search {
+      width: 100%;
+      max-width: none;
+    }
+    
+    .header__icons {
+      justify-content: center;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    header {
+      padding: 0 16px;
+    }
+    
+    .header__title {
+      font-size: 1.25rem;
+    }
+    
+    .header__search__container__wrapper {
+      padding: 1rem 16px;
+    }
+
+    .header__mobile__link {
+      font-size: 1rem;
+      padding: 0.4rem 0;
+    }
+  }
+
+  /* Pantallas grandes (lg) */
+  @media screen and (min-width: 1024px) {
+    header {
+      padding: 0 96px;
+    }
+    
+    .header__title {
+      font-size: 1.75rem;
+    }
+    
+    .header__search {
+      width: 250px;
+    }
+    
+    .header__menu {
+      gap: 1.5rem;
+    }
+    
+    .header__icons {
+      gap: 1.25rem;
+    }
+  }
 {% endstylesheet %}
+
+<script>
+// Función para manejar el menú hamburguesa
+function initHamburgerMenu() {
+  const hamburger = document.getElementById('hamburger-menu');
+  const mobileMenu = document.getElementById('mobile-menu');
+  
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const isActive = hamburger.classList.contains('active');
+      
+      if (isActive) {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+      } else {
+        hamburger.classList.add('active');
+        mobileMenu.classList.add('active');
+      }
+    });
+    
+    // Cerrar menú al hacer clic fuera
+    document.addEventListener('click', function(event) {
+      if (!hamburger.contains(event.target) && !mobileMenu.contains(event.target)) {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+      }
+    });
+  }
+}
+
+// Múltiples formas de ejecutar el script
+document.addEventListener('DOMContentLoaded', initHamburgerMenu);
+window.addEventListener('load', initHamburgerMenu);
+
+// Fallback inmediato
+setTimeout(initHamburgerMenu, 100);
+</script>
 
 {% schema %}
 {
@@ -60,6 +372,15 @@
       "type": "link_list",
       "id": "menu",
       "label": "t:labels.menu"
+    },
+    {
+      "type": "range",
+      "id": "section_spacing_bottom",
+      "label": "Section spacing bottom",
+      "default": 36,
+      "min": 0,
+      "max": 100,
+      "step": 1
     }
   ]
 }
