@@ -1,0 +1,197 @@
+<div class="custom-slider" style="margin-bottom: {{ section.settings.section_spacing }}px; margin-top: {{ section.settings.section_spacing_top }}px;">
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            {% assign collection = collections[section.settings.slide_collection] %}
+            {% if collection != blank %}
+                {% for product in collection.products %}
+                    <div class="swiper-slide" style="display: flex; flex-direction: column; align-items: left; justify-content: center; position: relative;">
+                        <h2 class="custom-slider__title">{{ product.title }}</h2>
+                        <p class="custom-slider__description">{{ product.description | strip_html | truncate: 110 }}</p>
+                        {% if product.images[0] %}
+                        <img src="{{ product.images[0] | image_url: width: 800 }}" alt="{{ product.title | default: 'Slide' }}" width="800" height="400" loading="eager" style="border-radius: 0.5rem;">
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="swiper-slide">
+                    <p>{{ 'sections.custom_slider.empty_collection' | t }}</p>
+                </div>
+            {% endif %}
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>
+
+<style>
+.swiper {
+  width: 100%;
+  height: 500px;
+  border-radius: 0.5rem;
+}
+
+
+.swiper-slide h2 {
+  font-size: 3rem;
+  position: absolute;
+  bottom: 20%;
+  z-index: 2;
+  border-radius: 0 0.5rem  0.5rem 0;
+  padding: 1rem 2rem ;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 4rem);
+}
+
+.swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.custom-slider__title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+  font-family: var(--font-primary--family);
+}
+
+.custom-slider__description {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--color-secondary);
+  position: absolute;
+  bottom: 11%;
+  z-index: 2;
+  padding: 0 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 4rem);
+  margin-top: 0.5rem;
+}
+/* Gradiente oscuro en la parte inferior */
+.swiper-slide::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.swiper-pagination-bullet {
+  transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  transform: scale(1.2);
+  transition: all 0.3s ease;
+}
+
+@media screen and (max-width: 768px) {
+  .swiper {
+    height: 400px;
+  }
+  
+  .swiper-slide h2 {
+    font-size: 2rem;
+    bottom: 20%;
+    padding: 1rem 2rem;
+  }
+  
+  .custom-slider__title {
+    font-size: 2rem;
+  }
+  
+  .custom-slider__description {
+    font-size: 0.9rem;
+    bottom: 13%;
+    margin-top: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .swiper {
+    height: 300px;
+  }
+  
+  .swiper-slide h2 {
+    font-size: 1.5rem;
+    bottom: 22%;
+    padding: 1rem 2rem;
+  }
+  
+  .custom-slider__title {
+    font-size: 1.5rem;
+  }
+  
+  .custom-slider__description {
+    font-size: 0.8rem;
+    bottom: 16%;
+    padding: 0 2rem;
+    margin-top: 0.5rem;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .swiper {
+    height: 600px;
+  }
+  
+  .swiper-slide h2 {
+    font-size: 3.5rem;
+    bottom: 12%;
+    padding: 1rem 2rem;
+  }
+  
+  .custom-slider__title {
+    font-size: 3.5rem;
+  }
+  
+  .custom-slider__description {
+    font-size: 1.1rem;
+    bottom: 8%;
+    padding: 0 2rem;
+    margin-top: 0.5rem;
+  }
+}
+</style>
+
+  {% schema %}
+    {
+      "name": "Custom Slider",
+      "settings": [
+        {
+            "id": "slide_collection",
+            "type": "collection",
+            "label": "Slide Collection",
+            "info": "This is the collection of the slide"
+        },
+        {
+            "id": "section_spacing_top",
+            "type": "range",
+            "label": "t:labels.top_spacing",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "default": 0,
+            "info": "t:labels.top_spacing_info"
+        },
+        {
+            "id": "section_spacing",
+            "type": "range",
+            "label": "t:labels.section_spacing",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "default": 16,
+            "info": "t:labels.section_spacing_info"
+        }
+      ],
+    }
+  {% endschema %}
