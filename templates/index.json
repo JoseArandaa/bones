@@ -10,11 +10,51 @@
 {
   "sections": {
     "slider-banner": {
-      "type": "custom-slider"
+      "type": "custom-slider",
+      "settings": {
+        "slide_collection": "frontpage",
+        "section_spacing_top": 0,
+        "section_spacing": 20
+      }
     },
     "main-cards": {
-      "type": "main-cards"
+      "type": "main-cards",
+      "settings": {
+        "collection": "frontpage",
+        "limit": 3,
+        "title": "",
+        "section_spacing_top": 16,
+        "section_spacing_bottom": 16,
+        "show_description": true
+      }
+    },
+    "main_cards_8CCwNw": {
+      "type": "main-cards",
+      "settings": {
+        "collection": "frontpage",
+        "limit": 4,
+        "title": "Popular Categories",
+        "section_spacing_top": 16,
+        "section_spacing_bottom": 16,
+        "show_description": false
+      }
+    },
+    "main_cards_dz4jAg": {
+      "type": "main-cards",
+      "settings": {
+        "collection": "frontpage",
+        "limit": 3,
+        "title": "Featured Deals",
+        "section_spacing_top": 20,
+        "section_spacing_bottom": 16,
+        "show_description": true
+      }
     }
   },
-  "order": ["slider-banner", "main-cards"]
+  "order": [
+    "slider-banner",
+    "main-cards",
+    "main_cards_8CCwNw",
+    "main_cards_dz4jAg"
+  ]
 }
